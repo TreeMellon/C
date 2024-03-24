@@ -15,8 +15,11 @@ int main()
     int a = 5;
     ptr = &a;
 
+    //  free(ptr);
+    printf("*ptr = %d, ptr = %d\n", *ptr, ptr);
     free(ptr);
-    printf("a = %d\n", *ptr);
+    printf("after free *ptr = %d, ptr = %d\n", *ptr, ptr);
+    printf("*a = %d", a);
 
     return 0;
 }

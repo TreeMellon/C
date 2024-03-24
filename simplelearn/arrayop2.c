@@ -32,4 +32,5 @@ int main()
     }
 
     // getch();
+    exit(0);
 }

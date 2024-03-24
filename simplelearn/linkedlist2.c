@@ -5,14 +5,13 @@
 
 typedef struct Node
 {
-
     int x;
     struct Node *next;
 } Node;
 
 void insert_end(Node **root, int value)
 {
-    Node *new_node = malloc(sizeof(Node));
+    Node *new_node = (Node *)malloc(sizeof(Node));
     if (new_node == NULL)
     {
         return;
@@ -23,7 +22,7 @@ void insert_end(Node **root, int value)
     if (*root == NULL)
     {
         *root = new_node;
-        return 9;
+        return;
     }
 
     Node *curr = *root;
@@ -238,5 +237,5 @@ int main()
     // _CrtSetReportMode(_CRT_WARN, _CRTDBG_MODE_DEBUG);
     // _CrtDumpMemoryLeaks();
 
-    //   return 0;
+    return 0;
 }

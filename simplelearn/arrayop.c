@@ -9,16 +9,16 @@ int main()
     //     printf("a[i] = %d\n", a[i]);
     // }
     int array[10], n, i, item;
-    printf("Enter the size of array:");
+    printf("Enter the size of array: ");
     scanf("%d", &n);
     printf("\n Enter Elements in array: ");
     for (i = 0; i < n; i++)
     {
         scanf("%d", &array[i]);
-        printf("n is %d", n);
+        //    printf("n is %d", n);
     }
 
-    printf("\n enter the element at the beginning");
+    printf("\n enter the element at the beginning. ");
     scanf("%d", &item);
 
     n++;
@@ -35,5 +35,6 @@ int main()
         printf("\n%d", array[i]);
     }
 
-    getch();
+    //  getch();
+    exit(0);
 }
