@@ -9,6 +9,7 @@ typedef struct Node
 // struct Node *head;
 
 void *Insert(Node **head, int x)
+// void *Insert(Node *head, int x)
 {
     struct Node *temp = malloc(sizeof(struct Node));
     temp->data = x;
@@ -19,9 +20,13 @@ void *Insert(Node **head, int x)
     *head = temp;
 
     // if (head != NULL)
+    // {
     //     temp->next = head;
+    //     printf("inserhead 1\n");
+    // }
     // head = temp;
-    //  return head;
+    // printf("inserhead 2\n");
+    // return head;
 }
 
 void Print(Node *head)
@@ -46,10 +51,13 @@ main()
     {
         printf("Enter the number \n");
         scanf("%d", &x);
-        //     head = Insert(head, x);
+        // head = Insert(head, x);
         Insert(&head, x);
         Print(head);
     }
+
+    // free(head);
+    // Print(head);
 
     exit(0);
 }
