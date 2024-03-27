@@ -1,16 +1,17 @@
 #include <stdio.h>
 
-void PrintHello(char *name)
+void A()
 {
-    printf("Hello %s\n");
+    printf("Hello \n");
 }
-int Add(int a, int b)
+
+void B(void (*ptr)())
 {
-    return a + b;
+    ptr();
 }
 int main()
 {
-    void (*ptr)(char *);
-    ptr = PrintHello;
-    ptr("Tom");
+    //  void (*ptr)() = A;
+    // B(ptr);
+    B(A);
 }

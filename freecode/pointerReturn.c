@@ -7,6 +7,7 @@ void PrintHelloWorld()
 
 int *Add(int *a, int *b)
 {
+    // Heap memory is safe. Not overwritten like memory in stack
     int *c = (int *)malloc(sizeof(int));
     *c = (*a) + (*b);
     return c;
@@ -16,6 +17,7 @@ int main()
 {
     int a = 2, b = 4;
     int *ptr = Add(&a, &b);
+
     PrintHelloWorld();
     printf("Sum = %d\n", *ptr);
 }

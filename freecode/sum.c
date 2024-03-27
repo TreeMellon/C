@@ -13,7 +13,8 @@
 //     return sum;
 // }
 
-int SumOfElements(int *A, int size)
+// int SumOfElements(int *A, int size)
+int SumOfElements(int A[], int size)
 {
     int i, sum = 0;
 
