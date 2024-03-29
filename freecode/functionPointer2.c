@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-void PrintHello()
+void PrintHello(char *name)
 {
     printf("Hello \n");
 }
@@ -19,5 +19,9 @@ int main()
     //     printf("%d", c);
     p = Add;
     c = p(2, 3);
-    printf("%d", c);
+    printf("%d\n", c);
+
+    void (*ptr)();
+    ptr = PrintHello;
+    ptr("hello");
 }
