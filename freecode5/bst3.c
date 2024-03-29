@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+int MAX_Q_SIZE = 500;
+
 int max(int a, int b)
 {
     return a > b ? a : b;
@@ -97,6 +99,51 @@ int FindHeight(BstNode *root)
     return max(FindHeight(root->left), FindHeight(root->right)) + 1;
 }
 
+void enQueue(struct node **queue, int *rear,
+             struct node *new_node)
+{
+    queue[*rear] = new_node;
+    (*rear)++;
+}
+
+struct node *deQueue(struct node **queue, int *front)
+{
+    (*front)++;
+    return queue[*front - 1];
+}
+
+struct node **createQueue(int *front, int *rear)
+{
+    BstNode **queue = malloc(
+        sizeof(BstNode) * MAX_Q_SIZE);
+
+    *front = *rear = 0;
+    return queue;
+}
+
+void printLevelOrder(struct node *root)
+{
+    int rear, front;
+    BstNode **queue = createQueue(&front, &rear);
+    BstNode *temp_node = root;
+
+    while (temp_node)
+    {
+        printf("%d ", temp_node->data);
+
+        // Enqueue left child
+        if (temp_node->left)
+            enQueue(queue, &rear, temp_node->left);
+
+        // Enqueue right child
+        if (temp_node->right)
+            enQueue(queue, &rear, temp_node->right);
+
+        // Dequeue node and make it temp_node
+        temp_node = deQueue(queue, &front);
+    }
+}
+
 int main()
 {
 
@@ -131,6 +178,8 @@ int main()
     {
         printf("number not found");
     }
+
+    printLevelOrder(root);
 
     return 0;
 }

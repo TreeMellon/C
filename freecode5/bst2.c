@@ -1,49 +1,96 @@
+// Iterative Queue based C program
+// to do level order traversal
+// of Binary Tree
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
+#define MAX_Q_SIZE 500
 
-typedef struct BstNode
+// A binary tree node has data,
+// pointer to left child
+// and a pointer to right child
+typedef struct node
 {
     int data;
-    struct BstNode *left;
-    struct BstNode *right;
-} BstNode;
+    struct node *left;
+    struct node *right;
+} node;
 
-BstNode *Delete(BstNode *root, int data)
+// Function prototypes
+struct node **createQueue(int *, int *);
+void enQueue(node **, int *, node *);
+struct node *deQueue(node **, int *);
+
+// Given a binary tree, print its nodes in level order
+// using array for implementing queue
+void printLevelOrder(struct node *root)
 {
-    if (root == NULL)
-        return root;
-    else if (data < root->data)
-        root->left = Delete(root->left, data);
-    else if (data > root->data)
-        root->right = Delete(root->right, data);
-    else
+    int rear, front;
+    struct node **queue = createQueue(&front, &rear);
+    struct node *temp_node = root;
+
+    while (temp_node)
     {
-        // Case 1: No child
-        if (root->left == NULL && root->right == NULL)
-        {
-            free(root);
-            root = NULL;
-            return root;
-        }
-        // Case 2: One child
-        else if (root->left == NULL)
-        {
-            BstNode *temp = root;
-            root = root->right;
-            free(temp);
-            return root;
-        }
-        else if (root->left == NULL)
-        {
-            BstNode *temp = root;
-            root = root->left;
-            free(temp);
-            return root;
-        }
+        printf("%d ", temp_node->data);
+
+        // Enqueue left child
+        if (temp_node->left)
+            enQueue(queue, &rear, temp_node->left);
+
+        // Enqueue right child
+        if (temp_node->right)
+            enQueue(queue, &rear, temp_node->right);
+
+        // Dequeue node and make it temp_node
+        temp_node = deQueue(queue, &front);
     }
 }
 
+// Utility functions
+struct node **createQueue(int *front, int *rear)
+{
+    node **queue = malloc(
+        sizeof(node) * MAX_Q_SIZE);
+
+    *front = *rear = 0;
+    return queue;
+}
+
+void enQueue(struct node **queue, int *rear,
+             struct node *new_node)
+{
+    queue[*rear] = new_node;
+    (*rear)++;
+}
+
+struct node *deQueue(struct node **queue, int *front)
+{
+    (*front)++;
+    return queue[*front - 1];
+}
+
+// Helper function that allocates a new node with the
+// given data and NULL left and right pointers.
+node *newNode(int data)
+{
+    node *node = malloc(sizeof(node));
+    node->data = data;
+    node->left = NULL;
+    node->right = NULL;
+
+    return node;
+}
+
+// Driver program to test above functions
 int main()
 {
+    struct node *root = newNode(1);
+    root->left = newNode(2);
+    root->right = newNode(3);
+    root->left->left = newNode(4);
+    root->left->right = newNode(5);
+
+    printf("Level Order traversal of binary tree is \n");
+    printLevelOrder(root);
+
+    return 0;
 }
