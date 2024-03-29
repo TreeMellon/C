@@ -77,19 +77,19 @@ bool Search(BstNode *root, int value)
 //     return root->data;
 // }
 
-int FindMin(BstNode *root)
+BstNode *FindMin(BstNode *root)
 {
     if (root == NULL)
     {
         printf("value is empty");
-        return -1;
+        return NULL;
     }
     //    BstNode *current = root;
-    else if (root->left == NULL)
+    while (root->left != NULL)
     {
-        return root->data;
+        root = root->left;
     }
-    return FindMin(root->left);
+    return root;
 }
 
 int FindHeight(BstNode *root)
@@ -221,6 +221,74 @@ bool IsBinarySearchTree(BstNode *root, int minValue, int maxValue)
     return false;
 }
 
+BstNode *Delete(BstNode *root, int data)
+{
+    if (root == NULL)
+        return root;
+    else if (data < root->data)
+        root->left = Delete(root->left, data);
+    else if (data > root->data)
+        root->right = Delete(root->right, data);
+    else
+    {
+        if (root->left == NULL && root->right == NULL)
+        {
+            free(root);
+            root = NULL;
+            return root;
+        }
+        else if (root->left == NULL)
+        {
+            BstNode *temp = root;
+            root = root->right;
+            free(temp);
+            return root;
+        }
+        else if (root->right == NULL)
+        {
+            BstNode *temp = root;
+            root = root->left;
+            free(temp);
+            return root;
+        }
+        else
+        {
+            BstNode *temp = FindMin(root->right);
+            root->data = temp->data;
+            root->right = Delete(root->right, temp->data);
+        }
+    }
+    return root;
+}
+
+BstNode *Getsuccessor(BstNode *root, int data)
+{
+    BstNode *current = Find(root, data);
+    if (current == NULL)
+        return NULL;
+    if (current->right != NULL)
+    {
+        return FindMin(current->right);
+    }
+
+    else
+    {
+        BstNode *successor = NULL;
+        BstNode *ancestor = root;
+        while (ancestor != current)
+        {
+            if (current->data < ancestor->data)
+            {
+                successor = ancestor;
+                ancestor = ancestor->left;
+            }
+            else
+                ancestor = ancestor->right;
+        }
+        return successor;
+    }
+}
+
 int main()
 {
 
@@ -242,6 +310,8 @@ int main()
     height = FindHeight(root);
     printf("height is %d\n", height);
 
+    printLevelOrder(root);
+
     int number;
 
     printf("Type number to search");
@@ -256,13 +326,16 @@ int main()
         printf("number not found\n");
     }
 
-    //    printLevelOrder(root);
+    Delete(root, 30);
+
+    printLevelOrder(root);
+
     //  Preorder(root);
     // Inorder(root);
     // Postorder(root);
-    bool test;
+    // bool test;
     // test = IsBinarySearchTree(root);
-    printf("binary tree test result is %d\n", test);
+    // printf("binary tree test result is %d\n", test);
 
     return 0;
 }

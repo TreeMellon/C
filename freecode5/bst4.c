@@ -221,6 +221,60 @@ bool IsBinarySearchTree(BstNode *root, int minValue, int maxValue)
     return false;
 }
 
+BstNode *Delete(BstNode *root, int data)
+{
+    if (root == NULL)
+        return root;
+    else if (data < root->data)
+        root->left = Delete(root->left, data);
+    else if (data > root->data)
+        root->right = Delete(root->right, data);
+    else
+    {
+        if (root->left == NULL && root->right == NULL)
+        {
+            free(root);
+            root = NULL;
+            return root;
+        }
+        else if (root->left == NULL)
+        {
+            BstNode *temp = root;
+            root = root->right;
+            free(temp);
+            return root;
+        }
+        else if (root->right == NULL)
+        {
+            BstNode *temp = root;
+            root = root->left;
+            free(temp);
+            return root;
+        }
+        else
+        {
+            BstNode *temp = FindMin(root->right);
+            root->data = temp->data;
+            root->right = Delete(root->right, temp->data);
+        }
+    }
+    return root;
+}
+
+BstNode *Getsuccessor(BstNode *root, int data)
+{
+    BstNode *current = Find(root, data);
+    if (current == NULL)
+        return NULL;
+    if (current->right != NULL)
+    {
+        BstNode *temp = current->right;
+        while (temp->left != NULL)
+            temp = temp->left;
+        return temp;
+    }
+}
+
 int main()
 {
 
@@ -242,6 +296,8 @@ int main()
     height = FindHeight(root);
     printf("height is %d\n", height);
 
+    printLevelOrder(root);
+
     int number;
 
     printf("Type number to search");
@@ -256,13 +312,16 @@ int main()
         printf("number not found\n");
     }
 
-    //    printLevelOrder(root);
+    Delete(root, 30);
+
+    printLevelOrder(root);
+
     //  Preorder(root);
     // Inorder(root);
     // Postorder(root);
-    bool test;
+    // bool test;
     // test = IsBinarySearchTree(root);
-    printf("binary tree test result is %d\n", test);
+    // printf("binary tree test result is %d\n", test);
 
     return 0;
 }
